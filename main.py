@@ -155,20 +155,35 @@ def main() -> None:
     start_browser()  # garante login antes do loop
 
     keys_by_index: dict[int, str] = {}
+    seen_mpn: dict[str, str] = {}  # mpn -> issue_key ja criada
     for df_idx, row in filtered.iterrows():
-        key = process_row(row, datasheet_root)
-        if key:
+        mpn = str(row[config.COLUMN_PART_NUMBER]).strip()
+        mpn_key = mpn.lower() if mpn and mpn.lower() != "nan" else ""
+        if mpn_key and mpn_key in seen_mpn:
+            key = seen_mpn[mpn_key]
+            print(f"  MPN duplicado ({mpn}) -> reutilizando ticket {key}")
             keys_by_index[df_idx] = key
+        else:
+            key = process_row(row, datasheet_root)
+            if key:
+                keys_by_index[df_idx] = key
+                if mpn_key:
+                    seen_mpn[mpn_key] = key
 
     # Resumo no console
     print("\n" + "=" * 70)
-    print("RESUMO DAS ISSUES CRIADAS")
+    print("RESUMO DAS ISSUES")
     print("=" * 70)
     if keys_by_index:
+        first_occurrence: dict[str, int] = {}
+        for df_idx, key in keys_by_index.items():
+            if key not in first_occurrence:
+                first_occurrence[key] = df_idx
         for df_idx, key in keys_by_index.items():
             line = filtered.loc[df_idx, config.COLUMN_LINE]
             pn = filtered.loc[df_idx, config.COLUMN_PART_NUMBER]
-            print(f"  {key:<12}  Linha {line:<8}  {pn}")
+            tag = " [DUPLICADO]" if first_occurrence[key] != df_idx else ""
+            print(f"  {key:<12}  Linha {line:<8}  {pn}{tag}")
     else:
         print("  (nenhuma issue criada)")
 

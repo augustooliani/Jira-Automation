@@ -45,10 +45,10 @@ STATUS_FILTER = "need erf"
 
 COLUMN_LINE = "Designator"
 COLUMN_STATUS = "R&D Remarks"
-COLUMN_PART_NUMBER = "Alternative"          # vem como "FABRICANTE#MPN"
+COLUMN_PART_NUMBER = "Alternative MPN"      # MPN alternativo
 COLUMN_COMP_DESCRIPTION = "DESCR"
 COLUMN_MPN = "MPN"                           # fallback (geralmente vazio)
-COLUMN_MANUFACTURER = "MANUF"                # fallback (geralmente vazio)
+COLUMN_MANUFACTURER = "Alternative MANUF"    # fallback (geralmente vazio)
 COLUMN_VENDOR_NAME = "MANUF"
 COLUMN_COMPONENT_PACKAGE = "Component Package"      # nao existe na BOM
 COLUMN_COMPONENT_FUNCTION = "Component Function"    # nao existe na BOM
