@@ -1,0 +1,14 @@
+# Ambiente virtual (recriado por setup.bat)
+.venv/
+
+# Perfil do Edge controlado pelo Playwright (contem cookies/login - NAO compartilhar!)
+.edge_profile/
+
+# Arquivos temporarios
+input/BOM_from_sharepoint.xlsx
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# VS Code
+.vscode/
